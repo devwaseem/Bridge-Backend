@@ -18,7 +18,7 @@ bleach==5.0.0; python_version >= "3.7"
 boto3==1.20.54; python_version >= "3.6"
 botocore==1.23.54; python_version >= "3.6"
 brotli==1.0.9; python_version >= "3.6"
-cement==2.8.2
+cement==3.0.6
 certifi==2021.10.8; python_version >= "3.7" and python_full_version < "3.0.0" or python_full_version >= "3.6.0" and python_version >= "3.7"
 cffi==1.15.0; platform_python_implementation == "CPython" and sys_platform == "win32" and (python_version >= "3.6" and python_full_version < "3.0.0" or python_version >= "3.6") and python_version >= "3.7" and implementation_name == "pypy"
 cfgv==3.3.1; python_full_version >= "3.6.1" and python_version >= "3.7"
