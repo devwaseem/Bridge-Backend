@@ -23,8 +23,8 @@ class UserAdmin(auth_admin.UserAdmin):
                     "is_active",
                     # "is_staff",
                     # "is_superuser",
-                    "groups",
-                    "user_permissions",
+                    # "groups",
+                    # "user_permissions",
                 ),
             },
         ),
@@ -33,3 +33,4 @@ class UserAdmin(auth_admin.UserAdmin):
     list_display = ["email", "fullname"]
     search_fields = ["fullname"]
     list_filter = ["is_active"]
+    filter_horizontal = []

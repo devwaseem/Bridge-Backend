@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email: str, password: str, role, **extra_fields):
+    def create_user(self, email: str, password: str, role, **extra_fields) -> "User":
         if not email:
             raise ValueError(_("User must have an email address"))
 
@@ -24,7 +24,7 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, email: str, password: str, **extra_fields):
+    def create_superuser(self, email: str, password: str, **extra_fields) -> "User":
         user = self.create_user(
             email=email, password=password, role=User.Role.SUPER_ADMIN, **extra_fields
         )
@@ -64,11 +64,19 @@ class User(AbstractUser):
     role = models.CharField(
         max_length=100, choices=Role.choices, verbose_name=_("Role")
     )
+    groups = None
+    user_permissions = None
+
+    # TODO: Add Avatar with custom upload path and size checks
+    # avatar = models.ImageField(upload_to="avatars", blank=True)
 
     @property
-    def is_superuser(self):
+    def is_superuser(self) -> bool:
         return self.role == User.Role.SUPER_ADMIN
 
     @property
-    def is_staff(self):
+    def is_staff(self) -> bool:
         return self.role == User.Role.SUPER_ADMIN
+
+    class Meta:
+        db_table = "user"

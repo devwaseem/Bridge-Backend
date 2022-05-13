@@ -6,8 +6,10 @@ from django.utils import timezone
 
 class BaseModel(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    created_at = models.DateTimeField(db_index=True, default=timezone.now)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(
+        db_index=True, default=timezone.now, editable=False
+    )
+    updated_at = models.DateTimeField(auto_now=True, editable=False)
 
     class Meta:
         abstract = True

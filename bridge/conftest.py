@@ -1,7 +1,7 @@
 import pytest
 
-from bridge.users.models import User
-from bridge.users.tests.factories import UserFactory
+from bridge.models import User
+from bridge.tests.factories import UserFactory
 
 
 @pytest.fixture(autouse=True)

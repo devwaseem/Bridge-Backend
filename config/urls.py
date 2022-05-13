@@ -4,13 +4,10 @@ from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
-from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
-    # User management
-    path("users/", include("bridge.users.urls", namespace="users")),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
@@ -20,16 +17,10 @@ if settings.DEBUG:
 # API URLS
 urlpatterns += [
     # API base url
-    path("api/", include("config.api_router")),
+    path("api/", include("bridge.urls")),
+    path("api/v1/schema/", SpectacularAPIView.as_view(), name="api-schema"),
     path(
-        "api/token/", jwt_views.TokenObtainPairView.as_view(), name="token_obtain_pair"
-    ),
-    path(
-        "api/token/refresh/", jwt_views.TokenRefreshView.as_view(), name="token_refresh"
-    ),
-    path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
-    path(
-        "api/docs/",
+        "api/v1/docs/",
         SpectacularSwaggerView.as_view(url_name="api-schema"),
         name="api-docs",
     ),
