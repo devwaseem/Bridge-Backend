@@ -40,7 +40,7 @@ django-admin-autocomplete-filter==0.7.1
 django-admin-interface==0.19.0
 django-allauth==0.50.0
 django-anymail==8.5; python_version >= "3.5"
-django-colorfield==0.6.3
+django-colorfield==0.7.0
 django-cors-headers==3.11.0; python_version >= "3.7"
 django-coverage-plugin==2.0.3
 django-daterangefilter==1.0.0
