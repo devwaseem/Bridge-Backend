@@ -1,15 +1,17 @@
 from typing import Any, Sequence
 
-from django.contrib.auth import get_user_model
+import factory.fuzzy
 from factory import Faker, post_generation
 from factory.django import DjangoModelFactory
+
+from bridge.models import User
 
 
 class UserFactory(DjangoModelFactory):
 
-    fullname = Faker("first_name")
+    fullname = Faker("name")
     email = Faker("email")
-    name = Faker("name")
+    role = factory.fuzzy.FuzzyChoice(User.Role.choices)
 
     @post_generation
     def password(self, create: bool, extracted: Sequence[Any], **kwargs):
@@ -28,5 +30,5 @@ class UserFactory(DjangoModelFactory):
         self.set_password(password)
 
     class Meta:
-        model = get_user_model()
+        model = User
         django_get_or_create = ["email"]
