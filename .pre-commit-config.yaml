@@ -34,6 +34,15 @@ repos:
         args: ["--config=setup.cfg"]
         additional_dependencies: [flake8-isort]
 
+  - repo: local
+    hooks:
+      - id: prevent-sensitive-branch-commit
+        name: Prevent sensitive branch commit
+        language: script
+        entry: ./scripts/prevent_branch_commit.sh
+
+
+
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
 ci:
   autoupdate_schedule: weekly
