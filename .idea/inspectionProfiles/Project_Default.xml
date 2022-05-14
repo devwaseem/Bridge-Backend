@@ -80,6 +80,7 @@
           <option value="location.models.State.objects" />
           <option value="location.models.City.objects" />
           <option value="advisor.models.AdvisorPosters.AdvisorPosters.*" />
+          <option value="bool.signup_step" />
         </list>
       </option>
     </inspection_tool>

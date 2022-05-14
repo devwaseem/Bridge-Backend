@@ -11,7 +11,7 @@ faker = Faker()
 
 class TestModelUser:
     @pytest.mark.unit
-    def test_db_table_is_user(self):
+    def test_User_db_table_is_user(self):
         assert User._meta.db_table == "user"
 
     @pytest.mark.unit
