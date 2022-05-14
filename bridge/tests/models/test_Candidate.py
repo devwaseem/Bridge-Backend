@@ -42,3 +42,11 @@ class TestModelCandidate:
     def test_age_is_none_when_dob_is_not_set(self):
         candidate = mixer.blend(Candidate, date_of_birth=None)
         assert candidate.age is None
+
+    @pytest.mark.unit
+    def test_when_new_candidate_created_signup_step_is_1(self):
+        candidate = Candidate.objects.create_candidate(
+            email=faker.email(),
+            password=faker.password(),
+        )
+        assert candidate.user.signup_step == 1
