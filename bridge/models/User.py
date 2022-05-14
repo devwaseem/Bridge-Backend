@@ -74,6 +74,7 @@ class User(AbstractUser):
     role = models.CharField(
         max_length=100, choices=Role.choices, verbose_name=_("Role")
     )
+    username = None
     groups = None
     user_permissions = None
 
