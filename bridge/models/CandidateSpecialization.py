@@ -7,6 +7,6 @@ class CandidateSpecialization(BaseModel):
     name = models.CharField(max_length=255)
 
     class Meta:
-        verbose_name = "Candidate Specialization"
-        verbose_name_plural = "Candidate Specializations"
+        verbose_name = "CandidateProfile Specialization"
+        verbose_name_plural = "CandidateProfile Specializations"
         db_table = "candidate_specialization"

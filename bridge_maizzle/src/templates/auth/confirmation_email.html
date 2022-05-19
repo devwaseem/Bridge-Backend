@@ -1,0 +1,81 @@
+---
+title: "Confirm your email address"
+preheader: "Please confirm your email address"
+bodyClass: bg-gray-100
+---
+
+<extends src="src/layouts/main.html">
+  <block name="template">
+    <table class="w-full font-sans">
+      <tr>
+        <td align="center" class="bg-gray-100">
+          <table class="w-600 sm:w-full">
+            <tr>
+              <td class="p-48 sm:py-32 sm:px-24 text-center">
+                <a href="{{page.website_url}}">
+                  <svg width="150" viewBox="0 0 339 103" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                    <path d="M41.7445 42.8788V42.0848C49.2313 40.6101 54.2225 33.9174 54.2225 24.8425C54.2225 13.1586 46.1685 5.21806 33.804 5.21806H0V81.2203H36.0727C48.4372 81.2203 56.4912 73.1663 56.4912 61.2555C56.4912 51.3866 50.706 44.5804 41.7445 42.8788ZM30.0606 17.8095C35.9593 17.8095 39.9295 21.7797 39.9295 27.4515C39.9295 33.3502 35.9593 36.9802 30.0606 36.9802H14.4064V17.8095H30.0606ZM32.3293 68.6288H14.4064V48.4372H32.3293C38.228 48.4372 42.1982 52.4075 42.1982 58.533C42.1982 64.6586 38.228 68.6288 32.3293 68.6288Z" fill="black"/>
+                    <path d="M97.8059 23.141C90.2057 23.141 84.7607 27.3381 82.7189 34.3711H81.8114V24.5022H68.199V81.2203H81.8114V50.9328C81.8114 43.2192 87.4832 36.9802 97.2387 36.9802H99.7343V23.141H97.8059Z" fill="black"/>
+                    <path d="M117.546 16.1079C122.538 16.1079 125.827 12.8183 125.827 7.94053C125.827 3.17621 122.538 0 117.546 0C112.442 0 109.152 3.17621 109.152 7.94053C109.152 12.8183 112.442 16.1079 117.546 16.1079ZM110.74 81.2203H124.353V24.5022H110.74V81.2203Z" fill="black"/>
+                    <path d="M172.663 1.81497V32.8965H171.756C169.6 27.2247 163.702 23.141 155.988 23.141C145.098 23.141 137.611 30.6277 137.611 41.7445V63.978C137.611 75.0947 145.098 82.5815 155.988 82.5815C163.702 82.5815 169.6 78.4978 171.756 72.826H172.663V81.2203H186.275V1.81497H172.663ZM161.773 69.8766C155.421 69.8766 151.224 65.9064 151.224 60.0077V45.7148C151.224 39.8161 155.421 35.8458 161.773 35.8458C168.239 35.8458 172.663 40.2698 172.663 45.6013V60.1211C172.663 65.4526 168.239 69.8766 161.773 69.8766Z" fill="black"/>
+                    <path d="M234.588 24.5022V32.8965H233.68C231.525 27.2247 225.626 23.141 217.913 23.141C207.023 23.141 199.536 30.6277 199.536 41.7445V61.0286C199.536 72.2588 207.023 79.6322 217.913 79.6322C225.399 79.6322 231.525 75.8888 233.68 70.217H234.588V82.9218C234.588 88.707 230.504 92.5639 224.038 92.5639C218.026 92.5639 213.942 89.5011 213.942 84.9637V84.5099H200.67V85.5308C200.67 96.1938 210.312 103 224.152 103C238.898 103 248.2 95.1729 248.2 83.6024V24.5022H234.588ZM223.698 66.9273C217.345 66.9273 213.148 62.957 213.148 57.0584V45.7148C213.148 39.8161 217.345 35.8458 223.698 35.8458C230.164 35.8458 234.588 40.2698 234.588 45.6013V57.1718C234.588 62.5033 230.164 66.9273 223.698 66.9273Z" fill="black"/>
+                    <path d="M309.339 57.739V45.4879C309.339 31.989 299.696 23.141 285.177 23.141C270.43 23.141 260.788 31.989 260.788 45.4879V60.2346C260.788 73.7335 270.543 82.5815 285.517 82.5815C299.696 82.5815 309.339 75.2082 309.339 64.2048V63.8645H295.726V64.0914C295.726 68.2885 291.529 71.1245 285.517 71.1245C278.711 71.1245 274.4 67.1542 274.4 61.1421V57.739H309.339ZM285.177 34.598C291.529 34.598 295.726 38.4548 295.726 44.467V47.3029H274.4V44.467C274.4 38.4548 278.711 34.598 285.177 34.598Z" fill="black"/>
+                    <path d="M328.567 82.9925C334.538 82.9925 338.315 79.1912 338.315 73.1828C338.315 67.2969 334.538 63.4957 328.567 63.4957C322.718 63.4957 318.818 67.2969 318.818 73.1828C318.818 79.1912 322.718 82.9925 328.567 82.9925Z" fill="#13C6FF"/>
+                  </svg>
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" class="sm:px-24">
+                <table class="w-full">
+                  <tr>
+                    <td class="bg-white text-gray-800 text-base text-left p-48 sm:px-24 leading-24 rounded">
+                      <p>Hello,</p>
+<!--                      <p class="m-0 mb-24">Please confirm your email address by clicking the button below:</p>-->
+                      <p class="m-0 mb-24">Please confirm that <span class="font-bold">@{{email}}</span> is your e-mail address by clicking on the button below or use the link <a href="@{{reset_link}}" class="text-bridgeBlueDark">@{{reset_link}}</a> within 24 hours.</p>
+                      <div class="leading-full">
+                        <a
+                          href="@{{reset_link}}"
+                          class="inline-block py-16 w-full uppercase rounded text-base font-semibold text-center no-underline text-white bg-bridgeBlue hover:bg-bridgeBlueDark"
+                        >
+                          <!--[if mso]><i style="letter-spacing: 24px; mso-font-width: -100%; mso-text-raise:30px;">&#8202;</i><![endif]-->
+                          <span style="mso-text-raise: 16px;">Verify</span>
+                          <!--[if mso]><i style="letter-spacing: 24px; mso-font-width: -100%;">&#8202;</i><![endif]-->
+                        </a>
+                      </div>
+                      <table class="w-full">
+                        <tr>
+                          <td class="py-32">
+                            <div class="bg-gray-200 h-px leading-px">&zwnj;</div>
+                          </td>
+                        </tr>
+                      </table>
+                      <p class="m-0 mb-16">if you did not sign up to Bridge, please ignore this email.</p>
+                      <p class="m-0 mb-16">Thanks, <br>The Bridge Team</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="h-32"></td>
+                  </tr>
+                  <tr>
+                    <td class="text-center text-gray-600 text-xs px-24">
+                      <!-- <p class="m-0 mb-4 uppercase">Powered by Maizzle</p> -->
+                      <p class="m-0 mb-4">Need help? <a href="mailto:{{page.support_email}}" class="text-bridgeBlueDark no-underline hover:underline">Contact us</a></p>
+                      <p class="m-0 mb-4">© Bridge. All Rights Reserved</p>
+                      <p class="m-0 mb-4"><a href="{{page.website_url}}" class="text-bridgeBlueDark no-underline hover:underline">webridge.app</a></p>
+                      <!-- <p class="cursor-default">
+                        <a href="https://maizzle.com/docs/" class="text-blue-500 no-underline hover:underline">Docs</a> &bull;
+                        <a href="https://github.com/maizzle" class="text-blue-500 no-underline hover:underline">Github</a> &bull;
+                        <a href="https://twitter.com/maizzlejs" class="text-blue-500 no-underline hover:underline">Twitter</a>
+                      </p> -->
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </block>
+</extends>

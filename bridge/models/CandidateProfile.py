@@ -12,8 +12,7 @@ from .User import User
 
 class CandidateManager(models.Manager):
     @transaction.atomic
-    def create_candidate(self, email: str, password: str) -> "Candidate":
-
+    def create_candidate(self, email: str, password: str) -> "CandidateProfile":
         user = User.objects.create_user(
             email=email, password=password, role=User.Role.CANDIDATE
         )
@@ -27,7 +26,7 @@ class CandidateManager(models.Manager):
         return candidate
 
 
-class Candidate(models.Model):
+class CandidateProfile(models.Model):
     objects = CandidateManager()
 
     class Gender(models.TextChoices):
@@ -35,6 +34,21 @@ class Candidate(models.Model):
         FEMALE = "FEMALE", _("Female")
         NON_BINARY = "NON_BINARY", _("Non binary")
         PREFER_NOT_TO_SAY = "PREFER_NOT_TO_SAY", _("Prefer not to say")
+
+    class EmploymentType(models.TextChoices):
+        FULL_TIME = "FULL_TIME", _("Full time")
+        PART_TIME = "PART_TIME", _("Part time")
+        INTERNSHIP = "INTERNSHIP", _("Internship")
+        FREELANCE = "FREELANCE", _("Freelance")
+        TRAINEE = "TRAINEE", _("Trainee")
+        STUDENT = "STUDENT", _("Student")
+
+    class EducationType(models.TextChoices):
+        UNDERGRADUATE = "UNDERGRADUATE", _("Undergraduate")
+        POSTGRADUATE = "POSTGRADUATE", _("Postgraduate")
+        PHD = "PHD", _("PhD")
+        DROP_OUT = "DROP_OUT", _("Drop out")
+        OTHER = "OTHER", _("Other")
 
     user = models.OneToOneField("User", primary_key=True, on_delete=models.CASCADE)
     created_at = models.DateTimeField(db_index=True, default=timezone.now)
@@ -48,6 +62,12 @@ class Candidate(models.Model):
     department = models.ForeignKey(
         CandidateDepartment, on_delete=models.PROTECT, null=True
     )
+    employment_type = models.CharField(
+        null=True, max_length=100, choices=EmploymentType.choices
+    )
+    education_type = models.CharField(
+        null=True, max_length=100, choices=EducationType.choices
+    )
 
     @property
     def industry(self) -> str:
@@ -60,4 +80,4 @@ class Candidate(models.Model):
         return None
 
     class Meta:
-        db_table = "candidate"
+        db_table = "candidate_profile"

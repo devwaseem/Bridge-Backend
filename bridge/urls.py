@@ -1,14 +1,41 @@
 from django.urls import path
 
+from .api.views.auth import (
+    ConfirmEmailApiView,
+    PasswordChangeApiView,
+    PasswordResetApiView,
+    PasswordResetInitiateApiView,
+)
 from .api.views.candidate.auth import CandidateLoginAPIView, CandidateSignupAPIView
 
 app_name = "bridge"
 
 # Public urls
 # ------------------------------------------------------------------------------
-urlpatterns = []
+urlpatterns = [
+    path(
+        "auth/confirm-email/<uidb64>/<token>",
+        ConfirmEmailApiView.as_view(),
+        name="confirm_email",
+    ),
+    path(
+        "auth/reset-password-initiate/",
+        PasswordResetInitiateApiView.as_view(),
+        name="reset_password_initiate",
+    ),
+    path(
+        "auth/reset-password/<uidb64>/<token>",
+        PasswordResetApiView.as_view(),
+        name="reset_password",
+    ),
+    path(
+        "auth/change-password/",
+        PasswordChangeApiView.as_view(),
+        name="change_password",
+    ),
+]
 
-# Private:Candidate urls
+# Private:CandidateProfile urls
 # ------------------------------------------------------------------------------
 
 urlpatterns += [

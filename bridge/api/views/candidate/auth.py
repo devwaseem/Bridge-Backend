@@ -11,7 +11,7 @@ from rest_framework.validators import UniqueValidator
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from bridge.models import Candidate, User
+from bridge.models import CandidateProfile, User
 
 
 class CandidateLoginAPIView(APIView):
@@ -100,7 +100,7 @@ class CandidateSignupAPIView(APIView):
             data=request.data, context={"request": request}
         )
         serializer.is_valid(raise_exception=True)
-        Candidate.objects.create_candidate(
+        CandidateProfile.objects.create_candidate(
             email=serializer.validated_data["email"],
             password=serializer.validated_data["password"],
         )

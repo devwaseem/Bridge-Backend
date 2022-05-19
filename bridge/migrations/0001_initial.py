@@ -92,7 +92,7 @@ class Migration(migrations.Migration):
                     models.CharField(
                         choices=[
                             ("SUPERADMIN", "Super Admin"),
-                            ("CANDIDATE", "Candidate"),
+                            ("CANDIDATE", "CandidateProfile"),
                             ("RECRUITER", "Recruiter"),
                         ],
                         max_length=100,
@@ -151,8 +151,8 @@ class Migration(migrations.Migration):
                 ("name", models.CharField(max_length=255)),
             ],
             options={
-                "verbose_name": "Candidate Skill",
-                "verbose_name_plural": "Candidate Skills",
+                "verbose_name": "CandidateProfile Skill",
+                "verbose_name_plural": "CandidateProfile Skills",
                 "db_table": "candidate_skill",
             },
         ),
@@ -178,8 +178,8 @@ class Migration(migrations.Migration):
                 ("name", models.CharField(max_length=255)),
             ],
             options={
-                "verbose_name": "Candidate Specialization",
-                "verbose_name_plural": "Candidate Specializations",
+                "verbose_name": "CandidateProfile Specialization",
+                "verbose_name_plural": "CandidateProfile Specializations",
                 "db_table": "candidate_specialization",
             },
         ),
@@ -272,7 +272,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name="Candidate",
+            name="CandidateProfile",
             fields=[
                 (
                     "user",
