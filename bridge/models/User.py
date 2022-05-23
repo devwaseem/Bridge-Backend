@@ -67,7 +67,7 @@ class User(AbstractUser):
 
     class Role(models.TextChoices):
         SUPER_ADMIN = "SUPERADMIN", _("Super Admin")
-        CANDIDATE = "CANDIDATE", _("CandidateProfile")
+        CANDIDATE = "CANDIDATE", _("Candidate")
         RECRUITER = "RECRUITER", _("Recruiter")
 
     #  Manager
@@ -99,6 +99,14 @@ class User(AbstractUser):
     @property
     def is_superuser(self) -> bool:
         return self.role == User.Role.SUPER_ADMIN
+
+    @property
+    def is_candidate(self) -> bool:
+        return self.role == User.Role.CANDIDATE
+
+    @property
+    def is_recruiter(self) -> bool:
+        return self.role == User.Role.RECRUITER
 
     @property
     def is_staff(self) -> bool:

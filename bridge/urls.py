@@ -7,6 +7,7 @@ from .api.views.auth import (
     PasswordResetInitiateApiView,
 )
 from .api.views.candidate.auth import CandidateLoginAPIView, CandidateSignupAPIView
+from .api.views.recruiter.auth import RecruiterLoginAPIView
 
 app_name = "bridge"
 
@@ -46,4 +47,6 @@ urlpatterns += [
 # Private:Recruiter urls
 # ------------------------------------------------------------------------------
 
-urlpatterns += []
+urlpatterns += [
+    path("recruiter/login", RecruiterLoginAPIView.as_view(), name="recruiter_login"),
+]

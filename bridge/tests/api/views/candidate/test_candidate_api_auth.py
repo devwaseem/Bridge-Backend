@@ -32,6 +32,26 @@ class TestCandidateApiAuth:
         assert "signup_step" in response.data
 
     @pytest.mark.integration
+    def test_candidate_api_login_with_valid_credentials_for_candidate_role_with_inactive_account_returns_401_with_error(
+        self, client
+    ):
+        candidate_login_url = reverse("bridge:candidate_login")
+        email = faker.email()
+        password = faker.password()
+        user = User.objects.create_user(
+            email=email, password=password, role=User.Role.CANDIDATE
+        )
+        user.is_active = False
+        user.save()
+
+        response = client.post(
+            candidate_login_url, {"email": email, "password": password}
+        )
+
+        assert response.status_code == 401
+        assert response.data["detail"] == "Your account has been disabled"
+
+    @pytest.mark.integration
     @pytest.mark.parametrize(
         "role", [role for role in User.Role.values if role != User.Role.CANDIDATE]
     )
@@ -43,7 +63,7 @@ class TestCandidateApiAuth:
         password = faker.password()
         User.objects.create_user(email=email, password=password, role=role)
         response = client.post(
-            candidate_login_url, {"email": email, "password": faker.password()}
+            candidate_login_url, {"email": email, "password": password}
         )
 
         assert response.status_code == 401
