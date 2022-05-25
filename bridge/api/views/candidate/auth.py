@@ -4,12 +4,12 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.base_user import AbstractBaseUser
 from drf_spectacular.utils import OpenApiResponse, extend_schema, inline_serializer
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.validators import UniqueValidator
 from rest_framework.views import APIView
-from rest_framework_simplejwt.tokens import RefreshToken
 
 from bridge.models import CandidateProfile, User
 
@@ -44,13 +44,7 @@ class CandidateLoginAPIView(APIView):
                 response=inline_serializer(
                     name="CandidateLoginReponse",
                     fields={
-                        "token": inline_serializer(
-                            name="Token",
-                            fields={
-                                "refresh": serializers.CharField(),
-                                "access": serializers.CharField(),
-                            },
-                        ),
+                        "token": serializers.CharField(),
                         "signup_step": serializers.IntegerField(),
                     },
                 ),
@@ -64,13 +58,10 @@ class CandidateLoginAPIView(APIView):
         )
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data["user"]
-        refresh = RefreshToken.for_user(user)
+        token, created = Token.objects.get_or_create(user=user)
         return Response(
             {
-                "token": {
-                    "refresh": str(refresh),
-                    "access": str(refresh.access_token),
-                },
+                "token": token.key,
                 "signup_step": user.signup_step,
             }
         )

@@ -4,6 +4,12 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core import mail
 from mixer.backend.django import mixer
 from rest_framework.reverse import reverse
+from rest_framework.status import (
+    HTTP_200_OK,
+    HTTP_400_BAD_REQUEST,
+    HTTP_401_UNAUTHORIZED,
+    HTTP_410_GONE,
+)
 
 from bridge.models import User
 from bridge.tokens import EmailVerificationToken
@@ -25,7 +31,7 @@ class TestPublicAuthActions:
         response = client.get(confirm_email_url)
         user.refresh_from_db()
 
-        assert response.status_code == 200
+        assert response.status_code == HTTP_200_OK
         assert response.data["detail"] == "Your Email has been Verified."
         assert user.is_email_verified
 
@@ -39,7 +45,7 @@ class TestPublicAuthActions:
         response = client.get(confirm_email_url)
         user.refresh_from_db()
 
-        assert response.status_code == 410
+        assert response.status_code == HTTP_410_GONE
         assert response.data["detail"] == "Link is invalid or expired."
         assert not user.is_email_verified
 
@@ -53,7 +59,7 @@ class TestPublicAuthActions:
         user.delete()
         response = client.get(confirm_email_url)
 
-        assert response.status_code == 410
+        assert response.status_code == HTTP_410_GONE
         assert response.data["detail"] == "Link is invalid or expired."
 
     @pytest.mark.integration
@@ -61,7 +67,7 @@ class TestPublicAuthActions:
         user = mixer.blend(User)
         password_reset_url = reverse("bridge:reset_password_initiate")
         response = client.post(password_reset_url, {"email": user.email})
-        assert response.status_code == 200
+        assert response.status_code == HTTP_200_OK
         assert len(mail.outbox) == 1
         assert mail.outbox[0].subject == "Reset your password"
         assert mail.outbox[0].body.find(f"{settings.FRONTEND_URL}/reset-password") != -1
@@ -72,7 +78,7 @@ class TestPublicAuthActions:
     ):
         password_reset_url = reverse("bridge:reset_password_initiate")
         response = client.post(password_reset_url, {"email": faker.email()})
-        assert response.status_code == 200
+        assert response.status_code == HTTP_200_OK
         assert len(mail.outbox) == 0
 
     @pytest.mark.unit
@@ -89,7 +95,7 @@ class TestPublicAuthActions:
             password_reset_url,
             {"new_password": new_password},
         )
-        assert response.status_code == 200
+        assert response.status_code == HTTP_200_OK
         assert response.data["detail"] == "Your password has been reset."
         user.refresh_from_db()
         assert user.check_password(new_password)
@@ -108,7 +114,7 @@ class TestPublicAuthActions:
             password_reset_url,
             {"new_password": new_password},
         )
-        assert response.status_code == 410
+        assert response.status_code == HTTP_410_GONE
         assert response.data["detail"] == "Link is invalid or expired."
         user.refresh_from_db()
         assert not user.check_password(new_password)
@@ -130,13 +136,13 @@ class TestPublicAuthActions:
             password_reset_url,
             {"new_password": new_password},
         )
-        assert response.status_code == 410
+        assert response.status_code == HTTP_410_GONE
         assert response.data["detail"] == "Link is invalid or expired."
 
     @pytest.mark.unit
     def test_password_change_api_returns_401_for_unauthenticated_user(self, client):
         response = client.post(reverse("bridge:change_password"))
-        assert response.status_code == 401
+        assert response.status_code == HTTP_401_UNAUTHORIZED
 
     @pytest.mark.unit
     def test_password_change_api_resets_password_with_correct_current_password(
@@ -156,7 +162,7 @@ class TestPublicAuthActions:
             {"current_password": current_password, "new_password": new_password},
         )
 
-        assert response.status_code == 200
+        assert response.status_code == HTTP_200_OK
         assert response.data["detail"] == "Your password has been changed."
         user.refresh_from_db()
         assert user.check_password(new_password)
@@ -180,7 +186,7 @@ class TestPublicAuthActions:
             {"current_password": faker.password(), "new_password": new_password},
         )
 
-        assert response.status_code == 400
+        assert response.status_code == HTTP_400_BAD_REQUEST
         assert response.data["detail"] == "Your current password is incorrect."
         user.refresh_from_db()
         assert user.check_password(current_password)

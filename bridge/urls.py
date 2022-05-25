@@ -2,6 +2,7 @@ from django.urls import path
 
 from .api.views.auth import (
     ConfirmEmailApiView,
+    IsAuthenticatedApiView,
     PasswordChangeApiView,
     PasswordResetApiView,
     PasswordResetInitiateApiView,
@@ -33,6 +34,11 @@ urlpatterns = [
         "auth/change-password/",
         PasswordChangeApiView.as_view(),
         name="change_password",
+    ),
+    path(
+        "auth/is-authenticated/",
+        IsAuthenticatedApiView.as_view(),
+        name="is_authenticated",
     ),
 ]
 

@@ -156,7 +156,7 @@ class User(AbstractUser):
 
     def send_password_reset_email(self):
         subject = "Reset your password"
-        token = EmailVerificationToken().make_token(self)
+        token = PasswordResetTokenGenerator().make_token(self)
         reset_link = (
             f"{settings.FRONTEND_URL}/reset-password/{self.encoded_uid}/{token}"
         )

@@ -4,11 +4,11 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.base_user import AbstractBaseUser
 from drf_spectacular.utils import OpenApiResponse, extend_schema, inline_serializer
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_simplejwt.tokens import RefreshToken
 
 from bridge.models import User
 
@@ -43,17 +43,18 @@ class RecruiterLoginAPIView(APIView):
                 response=inline_serializer(
                     name="RecruiterLoginReponse",
                     fields={
-                        "token": inline_serializer(
-                            name="Token",
-                            fields={
-                                "refresh": serializers.CharField(),
-                                "access": serializers.CharField(),
-                            },
-                        ),
+                        "token": serializers.CharField(),
                     },
                 ),
             ),
-            401: {"detail": "Invalid credentials"},
+            401: OpenApiResponse(
+                response=inline_serializer(
+                    name="RecruiterLogin401ErrorReponse",
+                    fields={
+                        "detail": serializers.CharField(default="Invalid credentials"),
+                    },
+                ),
+            ),
         },
     )
     def post(self, request):
@@ -62,12 +63,9 @@ class RecruiterLoginAPIView(APIView):
         )
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data["user"]
-        refresh = RefreshToken.for_user(user)
+        token, created = Token.objects.get_or_create(user=user)
         return Response(
             {
-                "token": {
-                    "refresh": str(refresh),
-                    "access": str(refresh.access_token),
-                },
+                "token": token.key,
             }
         )

@@ -1,3 +1,4 @@
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from drf_spectacular.utils import (
@@ -121,6 +122,7 @@ class PasswordResetApiView(APIView):
         new_password = serializers.CharField(min_length=8)
 
     permission_classes = [AllowAny]
+    serializer_class = PasswordResetRequestSerializer
 
     @extend_schema(
         parameters=[
@@ -185,6 +187,51 @@ class PasswordResetApiView(APIView):
             pass
         return Response(error_data, status=410)
 
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="uidb64",
+                location=OpenApiParameter.PATH,
+                type=OpenApiTypes.STR,
+                required=True,
+                description="base64 encoded uid",
+            ),
+            OpenApiParameter(
+                name="token",
+                location=OpenApiParameter.PATH,
+                type=OpenApiTypes.STR,
+                required=True,
+                description="Token to reset password",
+            ),
+        ],
+        request=PasswordResetRequestSerializer,
+        responses={
+            410: OpenApiResponse(
+                description="Link is invalid or expired.",
+                response=inline_serializer(
+                    name="PasswordResetErrorResponseSerializer",
+                    fields={
+                        "detail": serializers.CharField(
+                            default="Link is invalid or expired."
+                        ),
+                    },
+                ),
+            ),
+        },
+    )
+    def get(self, request, uidb64, token):
+        error_data = {"detail": "Link is invalid or expired"}
+        try:
+            uid = force_str(urlsafe_base64_decode(uidb64))
+            user: User = User.objects.get(id=uid)
+            print(user)
+            print(PasswordResetTokenGenerator().check_token(user=user, token=token))
+            if PasswordResetTokenGenerator().check_token(user=user, token=token):
+                return Response(status=200)
+        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+            pass
+        return Response(error_data, status=410)
+
 
 class PasswordChangeApiView(APIView):
     class PasswordChangeRequestSerializer(serializers.Serializer):
@@ -211,3 +258,10 @@ class PasswordChangeApiView(APIView):
             {"detail": "Your current password is incorrect."},
             status=400,
         )
+
+
+class IsAuthenticatedApiView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response(status=200)
